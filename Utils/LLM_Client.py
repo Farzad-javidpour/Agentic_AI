@@ -1,8 +1,16 @@
+from abc import ABC, abstractmethod
+import os
+from dotenv import load_dotenv
 import ollama
+from openai import OpenAI
 from datetime import datetime
 
+class LLmClient(ABC):
+    @abstractmethod
+    def chat(self, model, messages):
+        pass
 
-class OllamaClient:
+class OllamaClient(LLmClient):
 
     def __init__(
         self,
@@ -103,3 +111,27 @@ class OllamaClient:
 
                 "timestamp": datetime.now().isoformat()
             }
+
+
+class OpenRouterClient(LLmClient):
+
+    def __init__(
+        self
+    ):
+        self.base_url = os.getenv("OPENROUTER_BASE_URL")
+        self.api_key = os.getenv("OPENROUTER_API_KEY")
+
+    def chat(
+        self,
+        model,
+        messages
+    ):
+        
+        open_router = OpenAI(base_url= self.base_url, api_key= self.api_key)
+        response = open_router.chat.completions.create(model= model, messages= messages)
+
+        return response.choices[0].message.content
+
+            
+
+           
