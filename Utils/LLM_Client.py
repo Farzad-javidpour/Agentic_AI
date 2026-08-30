@@ -118,8 +118,8 @@ class OpenRouterClient(LLmClient):
     def __init__(
         self
     ):
-        self.base_url = os.getenv("OPENROUTER_BASE_URL")
-        self.api_key = os.getenv("OPENROUTER_API_KEY")
+        self.base_url = os.getenv("GOOGLE_BASE_URL")
+        self.api_key = os.getenv("GOOGLE_API_KEY")
 
     def chat(
         self,
